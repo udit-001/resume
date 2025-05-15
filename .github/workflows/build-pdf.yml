@@ -19,7 +19,7 @@ jobs:
       - name: Get current date
         id: date
         run: |
-          echo "tag_date=$(date +'%d.%m.%Y')" >> $GITHUB_OUTPUT
+          echo "tag_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
           echo "file_date=$(date +'%B_%Y' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build PDF
