@@ -1,10 +1,6 @@
-# Personal Resume
+# Resume
 
-My professional resume created using Typst, a powerful typesetting system. This resume is built using the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template) as a foundation.
-
-## Overview
-
-This repository contains my personal resume, crafted with Typst to ensure a clean, professional, and ATS-friendly presentation of my skills and experience.
+My resume created using Typst and the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template).
 
 ## Technical Details
 
@@ -13,9 +9,7 @@ This resume is created using:
 - Based on the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template) (version 0.2.4)
 - Using version 0.2.4 of the template as the preview functionality doesn't work in newer versions
 
-## Local Development
-
-### Prerequisites
+## Setup
 
 1. Install Typst:
    ```bash
