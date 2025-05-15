@@ -10,7 +10,8 @@ This repository contains my personal resume, crafted with Typst to ensure a clea
 
 This resume is created using:
 - [Typst](https://typst.app/) for typesetting
-- Based on the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template)
+- Based on the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template) (version 0.2.4)
+- Using version 0.2.4 of the template as the preview functionality doesn't work in newer versions
 
 ## Local Development
 
