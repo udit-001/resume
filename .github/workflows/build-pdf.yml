@@ -16,18 +16,20 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4.1.0
 
-      - name: Build PDF
-        run: typst compile src/main.typ resume.pdf
-
       - name: Get current date
         id: date
-        run: echo "date=$(date +'%B-%Y')" >> $GITHUB_OUTPUT
+        run: |
+          echo "tag_date=$(date +'%d.%m.%Y')" >> $GITHUB_OUTPUT
+          echo "file_date=$(date +'%B_%Y' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: Build PDF
+        run: typst compile src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: resume.pdf
-          tag_name: release-${{ steps.date.outputs.date }}
-          name: Resume ${{ steps.date.outputs.date }}
+          files: resume_${{ steps.date.outputs.file_date }}.pdf
+          tag_name: v${{ steps.date.outputs.tag_date }}
+          name: v${{ steps.date.outputs.tag_date }}
           draft: false
           prerelease: false
