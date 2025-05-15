@@ -2,7 +2,7 @@
 
 // Put your personal information here, replacing mine
 #let name = "Udit Mittal"
-#let location = "San Diego, CA"
+#let location = "Bangalore, India"
 #let email = "contact@uditmittal.com"
 #let github = "github.com/udit-001"
 #let linkedin = "linkedin.com/in/stuxf"
