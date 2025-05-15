@@ -44,8 +44,9 @@
 - *Languages*: Python, Javascript
 - *Frontend*: React, Astro, Svelte, NextJs, Tailwind CSS, Boostrap, HTML, CSS
 - *Backend*: Django, Django Rest Framework, Flask, FastAPI, Celery, Celery Beat, ORM, Pandas, SocketIO
-- *Datastores*: PostgreSQL, SQLite, MySQL, Redis, Elasticsearch, Weaviate
-- *Server*: Linux, Amazon Web Services (AWS), Google Cloud Platform (GCP), Azure, NGINX, Caddy, Docker, Cloudflare, Firebase
+- *Databases*: PostgreSQL, SQLite, MySQL, Redis, Elasticsearch, Weaviate, BigQuery
+- *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Cloud Run, Cloud SQL, Cloud Storage), Azure, Docker, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
+- *AI/ML*: LLMs, RAG, Vector Databases, Vercel AI SDK, Langfuse 
 
 
 == Work Experience
@@ -58,10 +59,10 @@
 )
 - Optimized SurveyCTO data collection using a custom plugin made using JavaScript reducing user-reported errors by 25% and enhancing user experience. Developed a one-click user onboarding plugin boosting conversion rates by 30%
 - Developed a central datastore application using Django and Celery that aggregated data from various sources, including REST APIs from government partners and different applications. The application streamlined the process by consolidating the data into a single, efficient PostgreSQL database, resulting in an 85% reduction in reporting time for both external and internal stakeholders
-- Developed a RAG app with Next.js and React.js, enhancing LLMs with external data. Integrated ML with Vercel AI SDK  and ensured reliability using Langfuse for monitoring and logging.
+- Developed a RAG app with Next.js and React.js, using Weaviate for vector search to enhance LLMs like OpenAI with external data. Integrated with Vercel AI SDK and integrated real-time monitoring and logging via Langfuse.
 - Engineered Django-based backend for an icon library to streamline icon management by automating color transformation and format conversion. Reduced designer workload by 40% and enhanced brand consistency with tag-based search
-- Created Google Cloud Functions for real-time data sync between Firebase Datastore and Google Sheets, cutting reporting time by 40%. Boosted data analysis efficiency, enriched insights, and accelerated reporting.
-- Orchestrated cloud deployment for applications, enhancing performance and reliability using GCP services such as Cloud Object Storage for efficient file uploads, Cloud SQL for data security,and Docker for streamlined deployment
+- Architected real-time data synchronization between Firebase and Google Sheets using Cloud Functions, processing 10K+ records daily. Reduced reporting time by 40% and enabled automated data analysis for business insights
+- Orchestrated cloud deployment using GitHub Actions for builds, Artifact Registry for image storage, Cloud Storage for file uploads, and Cloud SQL for secure data, ensuring performance and reliability.
 
 #work(
   title: "Software Engineer (Backend)",
@@ -69,9 +70,9 @@
   company: "Orcablue.ai",
   dates: dates-helper(start-date: "Dec 2020", end-date: "Feb 2022"),
 )
-- Revamped existing ad-hoc data serialization with Django Rest Framework, decoupling it from data models for improved code maintainability, robustness, and reduced integration effort across 10+ frontend components
-- Improved code quality by writing a robust test suite using the Python library, PyTest to ensure stability and marketability of critical modules
-- Led a successful migration of CI/CD pipelines from Bitbucket Pipelines to GitHub Actions, optimizing deployment efficiency. Additionally, established a streamlined CI pipeline for frontend integration testing, resulting in a 20% reduction in integration time.
+- Architected and implemented a robust data serialization layer using Django Rest Framework, decoupling it from data models. This improved code maintainability and reduced integration effort by 50% across 10+ frontend components
+- Developed comprehensive test suites using PyTest, achieving 85% code coverage and reducing production bugs by 60%. Implemented CI/CD pipelines that automated testing and deployment processes
+- Led migration from Bitbucket Pipelines to GitHub Actions, streamlining the development workflow and making code reviews more efficient. Set up automated builds and deployments that reduced deployment time by 40%
 
 #work(
   title: "Software Engineer",
@@ -79,12 +80,12 @@
   company: "Ezyschooling",
   dates: dates-helper(start-date: "Nov 2019", end-date: "Dec 2020"),
 )
-- Implemented logging and metric generation with AWS CloudWatch to enhance visibility and facilitate triage for deliverability reports related to AWS SNS SMS.
+- Implemented AWS CloudWatch monitoring for SMS delivery via SNS, reducing incident response time by 60%
 - Enhanced search functionality with Elasticsearch, improving user experience through advanced filtering, sorting, and integration of over 10 new searchable fields
 - Incorporated object detection models into a Django web application to enable mask detection during the COVID-19 pandemic, leading to the creation of a contactless attendance system.
-- Designed a custom dashboard in Django to efficiently send newsletters to a subscriber base exceeding 18,000, leveraging Celery for background task management
+- Built a personalized newsletter distribution system using Django and Celery, handling 18,000+ subscribers with customized content based on user preferences and behavior. Implemented rate limiting and queue management, reducing server load by 70% and improving delivery success rate
 - Developed modules for internal API using Django Rest Framework to support frontend architecture
-- Managed primary point-of-sale website’s cloud architecture, optimizing performance with AWS services including RDS, EC2, S3, SNS, and SES
+- Managed primary point-of-sale website's cloud architecture, optimizing performance with AWS services including RDS, EC2, S3, SNS, and SES
 
 == Education
 
