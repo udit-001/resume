@@ -1,0 +1,33 @@
+name: Build PDF and Create Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4.1.0
+
+      - name: Build PDF
+        run: typst compile src/main.typ resume.pdf
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%B-%Y')" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: resume.pdf
+          tag_name: release-${{ steps.date.outputs.date }}
+          name: Resume ${{ steps.date.outputs.date }}
+          draft: false
+          prerelease: false
