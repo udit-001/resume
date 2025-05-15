@@ -19,4 +19,4 @@ This resume is created using:
 
 2. Install VSCode:
    - Download from [Visual Studio Code](https://code.visualstudio.com/)
-   - Install the [TinyMist](https://marketplace.visualstudio.com/items?itemName=typst.typst-vscode) extension for Typst support in VSCode
+   - Install the [TinyMist](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist) extension for Typst support in VSCode
