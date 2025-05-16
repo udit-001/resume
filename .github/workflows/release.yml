@@ -34,6 +34,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
       - name: Setup Typst
         uses: typst-community/setup-typst@v4.1.0
 
@@ -57,22 +68,22 @@ jobs:
               CUSTOM_EMAIL="$RESUME_EMAILS"
             fi
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-              ./scripts/generate_resumes.sh -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
             else
-              ./scripts/generate_resumes.sh -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
             fi
           else
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
               if [ -n "$RESUME_EMAILS" ]; then
-                ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
               else
-                ./scripts/generate_resumes.sh -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
               fi
             else
               if [ -n "$RESUME_EMAILS" ]; then
-                ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
               else
-                ./scripts/generate_resumes.sh ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
               fi
             fi
           fi
