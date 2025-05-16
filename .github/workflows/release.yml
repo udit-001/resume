@@ -33,30 +33,40 @@ jobs:
           echo "tag_date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
           echo "file_date=$(date +'%B_%Y' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
-      - name: Build PDF
+      - name: Build PDFs for all emails
+        env:
+          RESUME_EMAILS: ${{ vars.RESUME_EMAILS }}
+          RESUME_PHONE: ${{ vars.PHONE }}
+          TELEGRAM_BOT_TOKEN: ${{ vars.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
         run: |
-          if [ "${{ github.event.inputs.include_phone }}" = "true" ]; then
-            typst compile \
-              --input phone="${{ vars.PHONE }}" \
-              src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
+          if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
+            if [ -n "$RESUME_EMAILS" ]; then
+              ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            else
+              ./scripts/generate_resumes.sh -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            fi
           else
-            typst compile \
-              src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
+            if [ -n "$RESUME_EMAILS" ]; then
+              ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            else
+              ./scripts/generate_resumes.sh ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            fi
           fi
+
+      - name: Upload all generated PDFs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdfs-${{ steps.date.outputs.tag_date }}
+          path: dist/*.pdf
+          retention-days: 30
 
       - name: Create Release
         if: github.event.inputs.send_to_telegram == false
         uses: softprops/action-gh-release@v2
         with:
-          files: release_${{ steps.date.outputs.file_date }}.pdf
+          files: dist/*.pdf
           tag_name: v${{ steps.date.outputs.tag_date }}
           name: v${{ steps.date.outputs.tag_date }}
           draft: false
           prerelease: false
-
-      - name: Send to Telegram
-        if: github.event.inputs.send_to_telegram == 'true'
-        run: |
-          curl -F document=@resume_${{ steps.date.outputs.file_date }}.pdf \
-               -F caption="Resume generated on ${{ steps.date.outputs.tag_date }}" \
-               "https://api.telegram.org/bot${{ vars.TELEGRAM_BOT_TOKEN }}/sendDocument?chat_id=${{ vars.TELEGRAM_CHAT_ID }}"
