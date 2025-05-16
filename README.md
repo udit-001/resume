@@ -9,6 +9,21 @@ This resume is created using:
 - Based on the [basic-typst-resume-template](https://github.com/stuxf/basic-typst-resume-template) (version 0.2.4)
 - Using version 0.2.4 of the template as the preview functionality doesn't work in newer versions
 
+## GitHub Secrets
+
+To use the GitHub Actions workflow for generating and releasing resumes, you need to set up the following secrets in your repository:
+
+1. `RESUME_EMAILS`: Comma-separated list of email addresses to generate resumes for
+2. `PHONE`: Phone number to include in the resume (optional)
+3. `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (required if sending to Telegram)
+4. `TELEGRAM_CHAT_ID`: Your Telegram chat ID (required if sending to Telegram)
+
+To add these secrets:
+1. Go to your repository settings
+2. Navigate to "Secrets and variables" → "Actions"
+3. Click "New repository variable"
+4. Add each secret with its corresponding value
+
 ## Setup
 
 1. Install Typst:
