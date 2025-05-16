@@ -13,6 +13,16 @@ on:
         required: true
         type: boolean
         default: false
+      use_custom_email:
+        description: 'Use custom email instead of default emails?'
+        required: true
+        type: boolean
+        default: false
+      custom_email:
+        description: 'Custom email to generate resume for'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -40,17 +50,30 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ vars.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
         run: |
-          if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-            if [ -n "$RESUME_EMAILS" ]; then
-              ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ]; then
+            if [ -n "${{ github.event.inputs.custom_email }}" ]; then
+              CUSTOM_EMAIL="${{ github.event.inputs.custom_email }}"
             else
-              ./scripts/generate_resumes.sh -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              CUSTOM_EMAIL="$RESUME_EMAILS"
+            fi
+            if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
+              ./scripts/generate_resumes.sh -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            else
+              ./scripts/generate_resumes.sh -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
             fi
           else
-            if [ -n "$RESUME_EMAILS" ]; then
-              ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+            if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
+              if [ -n "$RESUME_EMAILS" ]; then
+                ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              else
+                ./scripts/generate_resumes.sh -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              fi
             else
-              ./scripts/generate_resumes.sh ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              if [ -n "$RESUME_EMAILS" ]; then
+                ./scripts/generate_resumes.sh -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              else
+                ./scripts/generate_resumes.sh ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              fi
             fi
           fi
 
