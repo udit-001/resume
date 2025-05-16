@@ -38,10 +38,10 @@ jobs:
           if [ "${{ github.event.inputs.include_phone }}" = "true" ]; then
             typst compile \
               --input phone="${{ vars.PHONE }}" \
-              src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+              src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
           else
             typst compile \
-              src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+              src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
           fi
 
       - name: Create Release

@@ -27,7 +27,7 @@ jobs:
         run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Build PDF
-        run: typst compile src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+        run: typst compile src/main.typ resume_${{ steps.date.outputs.file_date }}.pdf
 
       - name: Upload PDF as artifact
         uses: actions/upload-artifact@v4
