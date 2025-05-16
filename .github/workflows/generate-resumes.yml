@@ -93,17 +93,9 @@ jobs:
             fi
           else
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-              if [ -n "$RESUME_EMAILS" ]; then
-                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
-              else
-                python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
-              fi
+              python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
             else
-              if [ -n "$RESUME_EMAILS" ]; then
-                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
-              else
-                python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
-              fi
+              python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
             fi
           fi
 
