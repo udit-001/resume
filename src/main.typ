@@ -1,9 +1,9 @@
 #import "@preview/basic-resume:0.2.4": *
 #let phone = sys.inputs.at("phone", default: none)
+#let email = sys.inputs.at("email", default: "contact@uditmittal.com")
 // Put your personal information here, replacing mine
 #let name = "Udit Mittal"
 #let location = "Bangalore, India"
-#let email = "contact@uditmittal.com"
 #let github = "github.com/udit-001"
 #let linkedin = "linkedin.com/in/stuxf"
 #let personal-site = "uditmittal.com"
