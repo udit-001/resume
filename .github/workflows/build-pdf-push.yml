@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4.1.0
+        with:
+          cache-dependency-path: src/requirements.typ
 
       - name: Get short SHA
         id: sha
