@@ -3,11 +3,14 @@ name: Generate Resume PDFs
 on:
   workflow_dispatch:
     inputs:
-      send_to_telegram:
-        description: 'Send PDF to Telegram?'
+      send_to:
+        description: 'Where to send the generated PDFs?'
         required: true
-        type: boolean
-        default: false
+        type: choice
+        options:
+          - Release
+          - Telegram
+        default: 'Release'
       include_phone:
         description: 'Include phone number in PDF?'
         required: true
@@ -70,22 +73,22 @@ jobs:
               CUSTOM_EMAIL="$RESUME_EMAILS"
             fi
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
             else
-              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
             fi
           else
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
               if [ -n "$RESUME_EMAILS" ]; then
-                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
               else
-                python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
               fi
             else
               if [ -n "$RESUME_EMAILS" ]; then
-                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py -e "${RESUME_EMAILS}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
               else
-                python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to_telegram && '-t' || '' }}
+                python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
               fi
             fi
           fi
@@ -99,7 +102,7 @@ jobs:
           retention-days: 30
 
       - name: Create Release
-        if: github.event.inputs.send_to_telegram == false
+        if: github.event.inputs.send_to == 'Release'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.pdf
