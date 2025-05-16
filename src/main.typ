@@ -32,7 +32,7 @@
 )
 
 #let info = if phone != none {
-  info + (phone: phone)
+  info + (phone: link("tel:" + phone, phone))
 } else {
   info
 }
