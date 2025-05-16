@@ -37,6 +37,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Log workflow inputs
+        run: |
+          echo "=== Workflow Input Parameters ==="
+          echo "Send to: ${{ github.event.inputs.send_to }}"
+          echo "Include phone: ${{ github.event.inputs.include_phone }}"
+          echo "Use custom email: ${{ github.event.inputs.use_custom_email }}"
+          if [ -n "${{ github.event.inputs.custom_email }}" ]; then
+            MASKED_EMAIL=$(echo "${{ github.event.inputs.custom_email }}" | sed 's/^[^@]*/****/')
+            echo "Custom email: $MASKED_EMAIL"
+          else
+            echo "Custom email: (not provided)"
+          fi
+          echo "==============================="
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
