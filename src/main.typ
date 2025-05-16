@@ -22,7 +22,6 @@
   email: email,
   github: github,
   // linkedin: linkedin,
-  // phone: phone,
   personal-site: personal-site,
   accent-color: "#26428b",
   font: "New Computer Modern",
@@ -105,7 +104,7 @@
   institution: "Vivekananda Instititute of Professional Studies, GGSIPU",
   location: "Delhi, India",
   dates: dates-helper(start-date: "2016", end-date: "2019"),
-  degree: "Bachelor's of Computer Applications",
+  degree: "Bachelor of Computer Applications",
 
   // Uncomment the line below if you want edu formatting to be consistent with everything else
   consistent: true
