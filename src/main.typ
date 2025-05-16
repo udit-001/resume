@@ -57,7 +57,7 @@
 - *Frontend*: React, Astro, Svelte, NextJs, Tailwind CSS, Boostrap, HTML, CSS
 - *Backend*: Django, Django Rest Framework, Flask, FastAPI, Celery, Celery Beat, ORM, Pandas, SocketIO
 - *Databases*: PostgreSQL, SQLite, MySQL, Redis, Elasticsearch, Weaviate, BigQuery
-- *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Cloud Run, Cloud SQL, Cloud Storage), Azure, Docker, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
+- *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Cloud Run, Cloud SQL, Cloud Storage), Azure, Docker, Git, Bitbucket, Gitlab, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
 - *AI/ML*: LLMs, RAG, Vector Databases, Vercel AI SDK, Langfuse 
 
 
