@@ -10,7 +10,7 @@ import requests
 import logging
 from typing import Optional
 
-# Configure logging
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -23,7 +23,14 @@ def get_project_root() -> Path:
     script_dir = Path(__file__).parent
     return script_dir.parent
 
-def send_telegram_file(file_path: str, caption: str, bot_token: str, chat_id: str) -> None:
+def send_telegram_file(
+    file_path: str,
+    caption: str,
+    bot_token: str,
+    chat_id: str,
+    custom_filename: Optional[str] = None,
+    username: Optional[str] = None
+) -> None:
     """Send a file via Telegram."""
     if not bot_token or not chat_id:
         error_msg = (
@@ -43,6 +50,14 @@ def send_telegram_file(file_path: str, caption: str, bot_token: str, chat_id: st
             'chat_id': chat_id,
             'caption': f"{caption} (Generated on {current_date})"
         }
+
+        if custom_filename:
+            filename = (
+                f"{custom_filename} ({username.title()}).pdf"
+                if username else f"{custom_filename}.pdf"
+            )
+            files['document'] = (filename, file)
+
         response = requests.post(url, files=files, data=data)
         if not response.ok:
             logger.error(f"Failed to send file via Telegram: {response.text}")
@@ -80,18 +95,19 @@ def main():
     parser.add_argument("-p", "--phone", nargs="?", const="", help="Phone number (optional)")
     parser.add_argument("-b", "--bot-token", help="Telegram bot token")
     parser.add_argument("-c", "--chat-id", help="Telegram chat ID")
+    parser.add_argument("-f", "--tg-filename", help="Custom filename for Telegram messages (without extension)")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
     
     args = parser.parse_args()
     
     if args.verbose:
         logger.setLevel(logging.DEBUG)
-    
-    # Log configuration
+
     config_msg = (
         f"Config: telegram={args.telegram}, "
         f"email={bool(args.emails)}, "
         f"phone={bool(args.phone)}, "
+        f"tg_filename={args.tg_filename}, "
         f"log={logging.getLevelName(logger.level)}"
     )
     logger.info(config_msg)
@@ -114,13 +130,26 @@ def main():
             logger.info(f"Generating resume for {username}...")
             if generate_resume(output_file, email, args.phone):
                 if args.telegram:
-                    send_telegram_file(output_file, "Resume", bot_token, chat_id)
+                    send_telegram_file(
+                        output_file,
+                        "Resume",
+                        bot_token,
+                        chat_id,
+                        args.tg_filename,
+                        username
+                    )
     else:
         output_file = "dist/resume.pdf"
         logger.info("Generating resume without email...")
         if generate_resume(output_file, phone=args.phone):
             if args.telegram:
-                send_telegram_file(output_file, "Resume", bot_token, chat_id)
+                send_telegram_file(
+                    output_file,
+                    "Resume",
+                    bot_token,
+                    chat_id,
+                    args.tg_filename
+                )
 
 if __name__ == "__main__":
-    main() 
+    main()

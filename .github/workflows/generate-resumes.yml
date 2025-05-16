@@ -26,6 +26,11 @@ on:
         required: false
         type: string
         default: ''
+      tg_filename:
+        description: 'Custom filename for Telegram messages (without extension)'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -49,6 +54,7 @@ jobs:
           else
             echo "Custom email: (not provided)"
           fi
+          echo "Telegram filename: ${{ github.event.inputs.tg_filename || '(not provided)' }}"
           echo "==============================="
 
       - name: Setup Python
@@ -87,15 +93,15 @@ jobs:
               CUSTOM_EMAIL="$RESUME_EMAILS"
             fi
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }} ${{ github.event.inputs.tg_filename && format('-f {0}', github.event.inputs.tg_filename) || '' }}
             else
-              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
+              python3 scripts/generate_resumes.py -e "${CUSTOM_EMAIL}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }} ${{ github.event.inputs.tg_filename && format('-f {0}', github.event.inputs.tg_filename) || '' }}
             fi
           else
             if [ "${{ github.event.inputs.include_phone }}" == "true" ] && [ -n "$RESUME_PHONE" ]; then
-              python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
+              python3 scripts/generate_resumes.py -p "${RESUME_PHONE}" ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }} ${{ github.event.inputs.tg_filename && format('-f {0}', github.event.inputs.tg_filename) || '' }}
             else
-              python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }}
+              python3 scripts/generate_resumes.py ${{ github.event.inputs.send_to == 'Telegram' && '-t' || '' }} ${{ github.event.inputs.tg_filename && format('-f {0}', github.event.inputs.tg_filename) || '' }}
             fi
           fi
 
