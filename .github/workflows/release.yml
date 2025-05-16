@@ -46,7 +46,7 @@ jobs:
 
       - name: Create Release
         if: github.event.inputs.send_to_telegram == false
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: release_${{ steps.date.outputs.file_date }}.pdf
           tag_name: v${{ steps.date.outputs.tag_date }}
