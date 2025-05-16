@@ -1,15 +1,15 @@
 #import "@preview/basic-resume:0.2.4": *
-
+#let phone = sys.inputs.at("phone", default: none)
 // Put your personal information here, replacing mine
 #let name = "Udit Mittal"
 #let location = "Bangalore, India"
 #let email = "contact@uditmittal.com"
 #let github = "github.com/udit-001"
 #let linkedin = "linkedin.com/in/stuxf"
-#let phone = "+91 28912 81922"
 #let personal-site = "uditmittal.com"
 
-#show: resume.with(
+
+#let info = (
   author: name,
   // All the lines below are optional.
   // For example, if you want to to hide your phone number:
@@ -26,6 +26,14 @@
   author-position: center,
   personal-info-position: center,
 )
+
+#let info = if phone != none {
+  info + (phone: phone)
+} else {
+  info
+}
+
+#show: resume.with(..info)
 
 /*
 * Lines that start with == are formatted into section headings

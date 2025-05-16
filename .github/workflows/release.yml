@@ -2,6 +2,17 @@ name: Create PDF Release
 
 on:
   workflow_dispatch:
+    inputs:
+      send_to_telegram:
+        description: 'Send PDF to Telegram?'
+        required: true
+        type: boolean
+        default: false
+      include_phone:
+        description: 'Include phone number in PDF?'
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -23,9 +34,18 @@ jobs:
           echo "file_date=$(date +'%B_%Y' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build PDF
-        run: typst compile src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+        run: |
+          if [ "${{ github.event.inputs.include_phone }}" = "true" ]; then
+            typst compile \
+              --input phone="${{ vars.PHONE }}" \
+              src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+          else
+            typst compile \
+              src/main.typ release_${{ steps.date.outputs.file_date }}.pdf
+          fi
 
       - name: Create Release
+        if: github.event.inputs.send_to_telegram == false
         uses: softprops/action-gh-release@v1
         with:
           files: release_${{ steps.date.outputs.file_date }}.pdf
@@ -33,3 +53,10 @@ jobs:
           name: v${{ steps.date.outputs.tag_date }}
           draft: false
           prerelease: false
+
+      - name: Send to Telegram
+        if: github.event.inputs.send_to_telegram == true
+        run: |
+          curl -F document=@release_${{ steps.date.outputs.file_date }}.pdf \
+               -F caption="Resume generated on ${{ steps.date.outputs.tag_date }}" \
+               "https://api.telegram.org/bot${{ vars.TELEGRAM_BOT_TOKEN }}/sendDocument?chat_id=${{ vars.TELEGRAM_CHAT_ID }}"
