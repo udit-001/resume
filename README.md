@@ -75,60 +75,21 @@ When Telegram sending is enabled, it will send the generated files with a captio
 
 ## 🤖 GitHub Actions & Automation
 
-This repository uses GitHub Actions for automated resume generation. Here's how to set it up and use it:
+### Setup
+Add these variables in repo settings (Settings → Variables → Actions):
+- `RESUME_EMAILS`: Comma-separated email list (optional)
+- `PHONE`: Phone number (optional)
+- `TELEGRAM_BOT_TOKEN`: Bot token (required for Telegram)
+- `TELEGRAM_CHAT_ID`: Chat ID (required for Telegram)
 
-### Configuration
+### Workflows
 
-To use the GitHub Actions workflows, you need to set up the following secrets in your repository:
+#### 1. Auto-Build
+- Triggers on `src/main.typ` changes
+- Generates PDFs as artifacts (30-day retention)
 
-1. `RESUME_EMAILS`: Comma-separated list of email addresses to generate resumes for (optional)
-2. `PHONE`: Phone number to include in the resume (optional)
-3. `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (required if sending to Telegram)
-4. `TELEGRAM_CHAT_ID`: Your Telegram chat ID (required if sending to Telegram)
-
-To add these secrets:
-1. Go to your repository settings
-2. Navigate to "Secrets and variables" → "Actions"
-3. Click "New repository variable"
-4. Add each secret with its corresponding value
-
-### Available Workflows
-
-The repository includes two automated workflows:
-
-#### 1. Push-Based PDF Generation
-Located in `.github/workflows/build-pdf-push.yml`, this workflow:
-- Triggers automatically when changes are pushed to `src/main.typ`
-- Can also be triggered manually via workflow dispatch
-- Builds the resume using Typst
-- Uploads the generated PDFs as artifacts with a retention period of 30 days
-- Artifacts are named with the short SHA of the commit
-
-#### 2. Manual PDF Release
-Located in `.github/workflows/release.yml`, this workflow:
-- Can be triggered manually with customizable options:
-  - Option to send PDFs to Telegram
-  - Option to include phone number
-  - Option to use custom email instead of default emails
-  - Custom email input field
-- Creates a new GitHub release with the generated PDFs
-- Tags releases with the current date (format: YYYY.MM.DD)
-- Uploads PDFs as both artifacts and release assets
-- Supports all features of the resume generation script
-
-### Using the Workflows
-
-1. For push-based builds:
-   - Simply push changes to `src/main.typ`
-   - The workflow will automatically trigger and generate PDFs
-
-2. For manual releases:
-   - Go to the "Actions" tab in your repository
-   - Select "Create PDF Release"
-   - Configure the desired options
-   - Click "Run workflow"
-
-The generated PDFs will be available as:
-- Artifacts in the workflow run
-- Release assets (for manual releases)
-- In the `dist/` directory (which is git-ignored)
+#### 2. Manual Release
+- Trigger from Actions tab
+- Options: Telegram, phone, custom email
+- Creates dated release (YYYY.MM.DD)
+- PDFs available as artifacts and release assets
