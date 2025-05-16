@@ -8,6 +8,10 @@
 #let linkedin = "linkedin.com/in/stuxf"
 #let personal-site = "uditmittal.com"
 
+#show: doc => {
+  set page(footer: align(center)[#text(fill: rgb("666666"), size: 0.8em)[Last updated: #datetime.today().display("[month repr:long] [day], [year]")]])
+  doc
+}
 
 #let info = (
   author: name,
