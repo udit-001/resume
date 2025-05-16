@@ -57,6 +57,6 @@ jobs:
       - name: Send to Telegram
         if: github.event.inputs.send_to_telegram == 'true'
         run: |
-          curl -F document=@release_${{ steps.date.outputs.file_date }}.pdf \
+          curl -F document=@resume_${{ steps.date.outputs.file_date }}.pdf \
                -F caption="Resume generated on ${{ steps.date.outputs.tag_date }}" \
                "https://api.telegram.org/bot${{ vars.TELEGRAM_BOT_TOKEN }}/sendDocument?chat_id=${{ vars.TELEGRAM_CHAT_ID }}"

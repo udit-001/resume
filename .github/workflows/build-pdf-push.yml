@@ -33,5 +33,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-${{ steps.sha.outputs.short_sha }}
-          path: release_${{ steps.date.outputs.file_date }}.pdf
+          path: resume_${{ steps.date.outputs.file_date }}.pdf
           retention-days: 30
