@@ -1,4 +1,4 @@
-name: Create PDF Release
+name: Generate Resume PDFs
 
 on:
   workflow_dispatch:
