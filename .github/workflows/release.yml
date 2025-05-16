@@ -48,7 +48,7 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4.1.0
         with:
-          cache-dependency-path: src/requirements.typ
+          cache-dependency-path: src/main.typ
 
       - name: Get current date
         id: date
