@@ -55,7 +55,7 @@ jobs:
           prerelease: false
 
       - name: Send to Telegram
-        if: github.event.inputs.send_to_telegram == true
+        if: github.event.inputs.send_to_telegram == 'true'
         run: |
           curl -F document=@release_${{ steps.date.outputs.file_date }}.pdf \
                -F caption="Resume generated on ${{ steps.date.outputs.tag_date }}" \
