@@ -181,13 +181,12 @@ jobs:
 
       - name: Generate Workflow Summary
         run: |
-          echo "## 📄 Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Workflow Parameters" >> $GITHUB_STEP_SUMMARY
           echo "- **Destination:** ${{ github.event.inputs.send_to }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Include Phone:** ${{ github.event.inputs.include_phone }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Use Custom Email:** ${{ github.event.inputs.use_custom_email }}" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ]; then
+          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ] && [ -n "${{ github.event.inputs.custom_email }}" ]; then
             echo "- **Custom Email:** ${{ github.event.inputs.custom_email }}" >> $GITHUB_STEP_SUMMARY
           fi
           if [ "${{ github.event.inputs.send_to }}" == "Telegram" ]; then
