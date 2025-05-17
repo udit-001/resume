@@ -68,7 +68,7 @@
   dates: dates-helper(start-date: "Mar 2022", end-date: "Present"),
 )
 - Built a RAG-based message classification system using FastAPI, Weaviate, and OpenAI with custom embeddings and hybrid search strategies, processing 2M+ messages for intent classification and routing, reducing agent workload by 40%
-- Engineered an automated form digitization system using Azure OCR and custom validation algorithms, increasing form processing throughput by 350% while maintaining 90% accuracy. Reduced manual data entry time by 75% through robust error handling and automated validation
+- Engineered an automated form digitization system using custom-trained Azure OCR models and validation algorithms, increasing form processing throughput by 350% while maintaining 90% accuracy. Reduced manual data entry time by 75% through robust error handling, automated validation, and comprehensive monitoring using Langfuse for OCR outputs and processing steps
 - Developed a RAG app with Next.js and React.js, using Weaviate for vector search to enhance LLMs like OpenAI with external data. Integrated with Vercel AI SDK and integrated real-time monitoring and logging via Langfuse
 - Architected a real-time language detection pipeline using FastAPI and Exotel, integrating Sarvam AI's API with IVR system to reduce language selection time by 80%. Implemented robust error handling, fallback mechanisms, and comprehensive monitoring using Langfuse for real-time performance tracking
 - Orchestrated cloud deployment using GitHub Actions for builds, Artifact Registry for image storage, Cloud Storage for file uploads, and Cloud SQL for secure data, ensuring performance and reliability.
