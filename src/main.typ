@@ -1,7 +1,6 @@
 #import "@preview/basic-resume:0.2.4": *
 #let phone = sys.inputs.at("phone", default: none)
 #let email = sys.inputs.at("email", default: "contact@uditmittal.com")
-// Put your personal information here, replacing mine
 #let name = "Udit Mittal"
 #let location = "Bangalore, India"
 #let github = "github.com/udit-001"
@@ -53,11 +52,11 @@
 */
 == Skills
 - *Languages*: Python, Javascript
-- *Frontend*: React, Astro, Svelte, NextJs, Tailwind CSS, Boostrap, HTML, CSS
+- *Frontend*: React, NextJs, Svelte, Astro, Tailwind CSS, DaisyUI, Bootstrap, HTML, CSS
 - *Backend*: Django, Django Rest Framework, Flask, FastAPI, Celery, Celery Beat, ORM, Pandas, SocketIO
 - *Databases*: PostgreSQL, SQLite, MySQL, Redis, Elasticsearch, Weaviate, BigQuery
-- *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Cloud Run, Cloud SQL, Cloud Storage), Azure, Docker, Git, Bitbucket, Gitlab, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
-- *AI/ML*: LLMs, RAG, Vector Databases, Vercel AI SDK, Langfuse 
+- *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Compute Engine, Cloud Storage, Cloud SQL, Cloud Run, Cloud Functions, Artifact Registry), Azure, Docker, Git, Bitbucket, Gitlab, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
+- *AI/ML*: OpenAI, LLMs, RAG, Vector Databases, Sarvam AI, Vercel AI SDK, Langfuse
 
 
 == Work Experience
@@ -68,11 +67,10 @@
   company: "Noora Health",
   dates: dates-helper(start-date: "Mar 2022", end-date: "Present"),
 )
-- Optimized SurveyCTO data collection using a custom plugin made using JavaScript reducing user-reported errors by 25% and enhancing user experience. Developed a one-click user onboarding plugin boosting conversion rates by 30%
-- Developed a central datastore application using Django and Celery that aggregated data from various sources, including REST APIs from government partners and different applications. The application streamlined the process by consolidating the data into a single, efficient PostgreSQL database, resulting in an 85% reduction in reporting time for both external and internal stakeholders
-- Developed a RAG app with Next.js and React.js, using Weaviate for vector search to enhance LLMs like OpenAI with external data. Integrated with Vercel AI SDK and integrated real-time monitoring and logging via Langfuse.
-- Engineered Django-based backend for an icon library to streamline icon management by automating color transformation and format conversion. Reduced designer workload by 40% and enhanced brand consistency with tag-based search
-- Architected real-time data synchronization between Firebase and Google Sheets using Cloud Functions, processing 10K+ records daily. Reduced reporting time by 40% and enabled automated data analysis for business insights
+- Built a RAG-based message classification system using FastAPI, Weaviate, and OpenAI with custom embeddings and hybrid search strategies, processing 2M+ messages for intent classification and routing, reducing agent workload by 40%
+- Engineered an automated form digitization system using Azure OCR and custom validation algorithms, increasing form processing throughput by 350% while maintaining 90% accuracy. Reduced manual data entry time by 75% through robust error handling and automated validation
+- Developed a RAG app with Next.js and React.js, using Weaviate for vector search to enhance LLMs like OpenAI with external data. Integrated with Vercel AI SDK and integrated real-time monitoring and logging via Langfuse
+- Architected a real-time language detection pipeline using FastAPI and Exotel, integrating Sarvam AI's API with IVR system to reduce language selection time by 80%. Implemented robust error handling, fallback mechanisms, and comprehensive monitoring using Langfuse for real-time performance tracking
 - Orchestrated cloud deployment using GitHub Actions for builds, Artifact Registry for image storage, Cloud Storage for file uploads, and Cloud SQL for secure data, ensuring performance and reliability.
 
 #work(
