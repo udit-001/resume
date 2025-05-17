@@ -178,3 +178,39 @@ jobs:
           body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: false
+
+      - name: Generate Workflow Summary
+        run: |
+          echo "## 📄 Resume Generation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Workflow Parameters" >> $GITHUB_STEP_SUMMARY
+          echo "- **Destination:** ${{ github.event.inputs.send_to }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Include Phone:** ${{ github.event.inputs.include_phone }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Use Custom Email:** ${{ github.event.inputs.use_custom_email }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ]; then
+            echo "- **Custom Email:** ${{ github.event.inputs.custom_email }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "${{ github.event.inputs.send_to }}" == "Telegram" ]; then
+            echo "- **Telegram Filename:** ${{ github.event.inputs.tg_filename || 'Default' }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Generated Files" >> $GITHUB_STEP_SUMMARY
+          echo "PDFs have been generated and:" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
+            echo "- 📦 Uploaded as a new release (v${{ steps.date.outputs.release_name }})" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- 📤 Sent via Telegram" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
+            echo "- 📎 Available as workflow artifacts (with phone number, expires in 1 day)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- 📎 Available as workflow artifacts (expires in 7 days)" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Notes" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
+            echo "⚠️ **Warning:** Generated PDFs include phone number and will expire in 1 day" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
+            echo "📝 Release notes include changes since last release" >> $GITHUB_STEP_SUMMARY
+          fi
