@@ -181,7 +181,7 @@ jobs:
 
       - name: Generate Workflow Summary
         run: |
-          echo "## 📄 Resume Generation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 📄 Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Workflow Parameters" >> $GITHUB_STEP_SUMMARY
           echo "- **Destination:** ${{ github.event.inputs.send_to }}" >> $GITHUB_STEP_SUMMARY
@@ -194,7 +194,6 @@ jobs:
             echo "- **Telegram Filename:** ${{ github.event.inputs.tg_filename || 'Default' }}" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Generated Files" >> $GITHUB_STEP_SUMMARY
           echo "PDFs have been generated and:" >> $GITHUB_STEP_SUMMARY
           if [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
             echo "- 📦 Uploaded as a new release (v${{ steps.date.outputs.release_name }})" >> $GITHUB_STEP_SUMMARY
