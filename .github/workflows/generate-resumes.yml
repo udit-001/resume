@@ -85,8 +85,15 @@ jobs:
         if: github.event.inputs.send_to == 'Release'
         id: last_tag
         run: |
+          # Try to get the last tag, handling potential errors
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous tags found"
+            echo "last_tag=" >> $GITHUB_OUTPUT
+          else
+            echo "Found last tag: $LAST_TAG"
+            echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
+          fi
 
       - name: Generate release notes
         if: github.event.inputs.send_to == 'Release'
@@ -104,7 +111,13 @@ jobs:
           
           # Get commit history since last tag for main.typ
           if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
-            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE"
+            # Add error handling for git log command
+            if git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE" 2>/dev/null; then
+              echo "Successfully added commit history to release notes"
+            else
+              echo "- Unable to get detailed commit history" >> "$RELEASE_NOTES_FILE"
+              echo "- Please check the repository for recent changes" >> "$RELEASE_NOTES_FILE"
+            fi
           else
             echo "- Initial release" >> "$RELEASE_NOTES_FILE"
           fi
