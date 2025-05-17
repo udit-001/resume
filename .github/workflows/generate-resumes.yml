@@ -95,9 +95,8 @@ jobs:
             echo "last_tag=" >> $GITHUB_OUTPUT
           else
             echo "Found last tag: $LAST_TAG"
-            echo "last_tag<<EOF" >> $GITHUB_OUTPUT
-            echo "$LAST_TAG" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            # Fix: Use simple output format without EOF
+            echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
           fi
           
           # Debug information
@@ -127,8 +126,6 @@ jobs:
           echo "Repository: ${{ github.repository }}"
           echo "Current branch: $(git branch --show-current)"
           echo "Current commit: $(git rev-parse HEAD)"
-          echo "Git log of main.typ:"
-          git log --oneline -- src/main.typ | head -n 5
           echo "========================="
           
           # Get commit history since last tag for main.typ
