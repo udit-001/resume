@@ -92,38 +92,31 @@ jobs:
         if: github.event.inputs.send_to == 'Release'
         id: release_notes
         run: |
-          echo "notes=Generated resumes on $(date +'%B %d, %Y')" >> $GITHUB_OUTPUT
-          echo "" >> $GITHUB_OUTPUT
+          # Create a temporary file for release notes
+          RELEASE_NOTES_FILE=$(mktemp)
           
-          # Add workflow input information
-          if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
-            echo "- Includes phone number" >> $GITHUB_OUTPUT
-          fi
-          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ]; then
-            echo "- Custom email used" >> $GITHUB_OUTPUT
-          fi
+          # Write the initial content
+          echo "Generated resumes on $(date +'%B %d, %Y')" > "$RELEASE_NOTES_FILE"
+          echo "" >> "$RELEASE_NOTES_FILE"
           
-          echo "" >> $GITHUB_OUTPUT
-          echo "## Typst Template Changes" >> $GITHUB_OUTPUT
-          echo "Changes made to the resume template since last release:" >> $GITHUB_OUTPUT
+          echo "## Resume Updates" >> "$RELEASE_NOTES_FILE"
+          echo "Changes made to the resume content since last release:" >> "$RELEASE_NOTES_FILE"
           
           # Get commit history since last tag for main.typ
           if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
-            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> $GITHUB_OUTPUT
+            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE"
           else
-            echo "- Initial release" >> $GITHUB_OUTPUT
+            echo "- Initial release" >> "$RELEASE_NOTES_FILE"
           fi
           
-          echo "" >> $GITHUB_OUTPUT
-          echo "## Other Changes" >> $GITHUB_OUTPUT
-          echo "Other changes since last release:" >> $GITHUB_OUTPUT
+          # Read the file content and set it as output
+          RELEASE_NOTES=$(cat "$RELEASE_NOTES_FILE")
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
           
-          # Get all commit history since last tag
-          if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
-            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" >> $GITHUB_OUTPUT
-          else
-            echo "- Initial release" >> $GITHUB_OUTPUT
-          fi
+          # Clean up
+          rm "$RELEASE_NOTES_FILE"
 
       - name: Build PDFs for all emails
         env:
