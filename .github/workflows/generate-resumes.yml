@@ -78,6 +78,52 @@ jobs:
         run: |
           echo "tag_date=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
           echo "file_date=$(date +'%B_%Y' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +'%H%M%S')" >> $GITHUB_OUTPUT
+          echo "release_name=$(date +'%Y.%m.%d-%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Get last release tag
+        if: github.event.inputs.send_to == 'Release'
+        id: last_tag
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        if: github.event.inputs.send_to == 'Release'
+        id: release_notes
+        run: |
+          echo "notes=Generated resumes on $(date +'%B %d, %Y')" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          
+          # Add workflow input information
+          if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
+            echo "- Includes phone number" >> $GITHUB_OUTPUT
+          fi
+          if [ "${{ github.event.inputs.use_custom_email }}" == "true" ]; then
+            echo "- Custom email used" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "" >> $GITHUB_OUTPUT
+          echo "## Typst Template Changes" >> $GITHUB_OUTPUT
+          echo "Changes made to the resume template since last release:" >> $GITHUB_OUTPUT
+          
+          # Get commit history since last tag for main.typ
+          if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
+            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> $GITHUB_OUTPUT
+          else
+            echo "- Initial release" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "" >> $GITHUB_OUTPUT
+          echo "## Other Changes" >> $GITHUB_OUTPUT
+          echo "Other changes since last release:" >> $GITHUB_OUTPUT
+          
+          # Get all commit history since last tag
+          if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
+            git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" >> $GITHUB_OUTPUT
+          else
+            echo "- Initial release" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build PDFs for all emails
         env:
@@ -118,7 +164,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.pdf
-          tag_name: v${{ steps.date.outputs.tag_date }}
-          name: v${{ steps.date.outputs.tag_date }}
+          tag_name: v${{ steps.date.outputs.release_name }}
+          name: "Release ${{ steps.date.outputs.release_name }}"
+          body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: false
