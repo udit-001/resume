@@ -158,7 +158,15 @@ jobs:
         with:
           name: resume-pdfs-${{ steps.date.outputs.tag_date }}
           path: dist/*.pdf
-          retention-days: 30
+          retention-days: 7
+
+      - name: Upload all generated PDFs as artifact (with phone)
+        if: github.event.inputs.include_phone == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-pdfs-${{ steps.date.outputs.tag_date }}-with-phone
+          path: dist/*.pdf
+          retention-days: 1
 
       - name: Create Release
         if: github.event.inputs.send_to == 'Release'
