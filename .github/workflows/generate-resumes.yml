@@ -122,6 +122,11 @@ jobs:
             echo "- Initial release" >> "$RELEASE_NOTES_FILE"
           fi
           
+          # Log the release notes content
+          echo "=== Generated Release Notes ==="
+          cat "$RELEASE_NOTES_FILE"
+          echo "=============================="
+          
           # Read the file content and set it as output
           RELEASE_NOTES=$(cat "$RELEASE_NOTES_FILE")
           echo "notes<<EOF" >> $GITHUB_OUTPUT
