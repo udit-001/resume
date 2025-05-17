@@ -52,7 +52,7 @@
 */
 == Skills
 - *Languages*: Python, Javascript
-- *Frontend*: React, NextJs, Svelte, Astro, Tailwind CSS, DaisyUI, Bootstrap, HTML, CSS
+- *Frontend*: React, Next.js, Svelte, Astro, HTMX, Tailwind CSS, DaisyUI, Bootstrap, HTML, CSS
 - *Backend*: Django, Django Rest Framework, Flask, FastAPI, Celery, Celery Beat, ORM, Pandas, SocketIO
 - *Databases*: PostgreSQL, SQLite, MySQL, Redis, Elasticsearch, Weaviate, BigQuery
 - *Cloud & DevOps*: AWS (EC2, S3, RDS, Lambda), GCP (Compute Engine, Cloud Storage, Cloud SQL, Cloud Run, Cloud Functions, Artifact Registry), Azure, Docker, Git, Bitbucket, Gitlab, GitHub Actions, NGINX, Caddy, Linux, Firebase, Cloudflare, Vercel, Netlify
