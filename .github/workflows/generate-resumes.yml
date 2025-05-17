@@ -115,12 +115,7 @@ jobs:
         run: |
           # Create a temporary file for release notes
           RELEASE_NOTES_FILE=$(mktemp)
-          
-          # Write the initial content
-          echo "Generated resumes on $(date +'%B %d, %Y')" > "$RELEASE_NOTES_FILE"
-          echo "" >> "$RELEASE_NOTES_FILE"
-          
-          echo "## Resume Updates" >> "$RELEASE_NOTES_FILE"
+
           echo "Changes made to the resume content since last release:" >> "$RELEASE_NOTES_FILE"
           
           # Debug information
@@ -201,7 +196,7 @@ jobs:
         with:
           files: dist/*.pdf
           tag_name: v${{ steps.date.outputs.release_name }}
-          name: "Release ${{ steps.date.outputs.release_name }}"
+          name: "v${{ steps.date.outputs.release_name }}"
           body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: false
