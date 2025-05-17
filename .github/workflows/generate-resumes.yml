@@ -85,6 +85,9 @@ jobs:
         if: github.event.inputs.send_to == 'Release'
         id: last_tag
         run: |
+          # Fetch all tags from remote
+          git fetch --tags
+          
           # Try to get the last tag, handling potential errors
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -z "$LAST_TAG" ]; then
@@ -94,6 +97,12 @@ jobs:
             echo "Found last tag: $LAST_TAG"
             echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
           fi
+          
+          # Debug information
+          echo "=== Tag Debug Information ==="
+          echo "All tags:"
+          git tag -l
+          echo "============================"
 
       - name: Generate release notes
         if: github.event.inputs.send_to == 'Release'
@@ -109,16 +118,27 @@ jobs:
           echo "## Resume Updates" >> "$RELEASE_NOTES_FILE"
           echo "Changes made to the resume content since last release:" >> "$RELEASE_NOTES_FILE"
           
+          # Debug information
+          echo "=== Debug Information ==="
+          echo "Last tag value: '${{ steps.last_tag.outputs.last_tag }}'"
+          echo "Repository: ${{ github.repository }}"
+          echo "Current branch: $(git branch --show-current)"
+          echo "Current commit: $(git rev-parse HEAD)"
+          echo "========================="
+          
           # Get commit history since last tag for main.typ
           if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
+            echo "Attempting to get commit history since tag: ${{ steps.last_tag.outputs.last_tag }}"
             # Add error handling for git log command
             if git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE" 2>/dev/null; then
               echo "Successfully added commit history to release notes"
             else
+              echo "Failed to get commit history, adding fallback message"
               echo "- Unable to get detailed commit history" >> "$RELEASE_NOTES_FILE"
               echo "- Please check the repository for recent changes" >> "$RELEASE_NOTES_FILE"
             fi
           else
+            echo "No previous tag found, marking as initial release"
             echo "- Initial release" >> "$RELEASE_NOTES_FILE"
           fi
           
