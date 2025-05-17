@@ -95,13 +95,16 @@ jobs:
             echo "last_tag=" >> $GITHUB_OUTPUT
           else
             echo "Found last tag: $LAST_TAG"
-            echo "last_tag=$LAST_TAG" >> $GITHUB_OUTPUT
+            echo "last_tag<<EOF" >> $GITHUB_OUTPUT
+            echo "$LAST_TAG" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
           
           # Debug information
           echo "=== Tag Debug Information ==="
           echo "All tags:"
           git tag -l
+          echo "Last tag value: $LAST_TAG"
           echo "============================"
 
       - name: Generate release notes
@@ -124,13 +127,15 @@ jobs:
           echo "Repository: ${{ github.repository }}"
           echo "Current branch: $(git branch --show-current)"
           echo "Current commit: $(git rev-parse HEAD)"
+          echo "Git log of main.typ:"
+          git log --oneline -- src/main.typ | head -n 5
           echo "========================="
           
           # Get commit history since last tag for main.typ
           if [ -n "${{ steps.last_tag.outputs.last_tag }}" ]; then
             echo "Attempting to get commit history since tag: ${{ steps.last_tag.outputs.last_tag }}"
             # Add error handling for git log command
-            if git log ${{ steps.last_tag.outputs.last_tag }}..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE" 2>/dev/null; then
+            if git log "${{ steps.last_tag.outputs.last_tag }}"..HEAD --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" -- src/main.typ >> "$RELEASE_NOTES_FILE" 2>/dev/null; then
               echo "Successfully added commit history to release notes"
             else
               echo "Failed to get commit history, adding fallback message"
