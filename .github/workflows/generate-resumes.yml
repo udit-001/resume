@@ -207,10 +207,12 @@ jobs:
             echo "- 📎 Available as workflow artifacts (expires in 7 days)" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Notes" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
-            echo "⚠️ **Warning:** Generated PDFs include phone number and will expire in 1 day" >> $GITHUB_STEP_SUMMARY
-          fi
-          if [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
-            echo "📝 Release notes include changes since last release" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.include_phone }}" == "true" ] || [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
+            echo "### Notes" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ github.event.inputs.include_phone }}" == "true" ]; then
+              echo "⚠️ **Warning:** Generated PDFs include phone number and will expire in 1 day" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ "${{ github.event.inputs.send_to }}" == "Release" ]; then
+              echo "📝 Release notes include changes since last release" >> $GITHUB_STEP_SUMMARY
+            fi
           fi
