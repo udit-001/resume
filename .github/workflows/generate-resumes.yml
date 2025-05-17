@@ -41,6 +41,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history
+          fetch-tags: true  # Fetch all tags
 
       - name: Log workflow inputs
         run: |
