@@ -64,7 +64,7 @@
 #work(
   title: "Software Engineer",
   location: "Bangalore, India",
-  company: "Noora Health",
+  company: link("https://noorahealth.org", "Noora Health"),
   dates: dates-helper(start-date: "Mar 2022", end-date: "Present"),
 )
 - Built a RAG-based message classification system using FastAPI, Weaviate, and OpenAI with custom embeddings and hybrid search strategies, processing 2M+ messages for intent classification and routing, reducing agent workload by 40%
@@ -76,7 +76,7 @@
 #work(
   title: "Software Engineer (Backend)",
   location: "Bangalore, India",
-  company: "Orcablue.ai",
+  company: link("https://orcablue.ai", "Orcablue.ai"),
   dates: dates-helper(start-date: "Dec 2020", end-date: "Feb 2022"),
 )
 - Architected and implemented a robust data serialization layer using Django Rest Framework, decoupling it from data models. This improved code maintainability and reduced integration effort by 50% across 10+ frontend components
@@ -86,7 +86,7 @@
 #work(
   title: "Software Engineer",
   location: "Delhi, India",
-  company: "Ezyschooling",
+  company: link("https://ezyschooling.com", "Ezyschooling"),
   dates: dates-helper(start-date: "Nov 2019", end-date: "Dec 2020"),
 )
 - Implemented AWS CloudWatch monitoring for SMS delivery via SNS, reducing incident response time by 60%
