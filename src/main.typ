@@ -4,7 +4,7 @@
 #let name = "Udit Mittal"
 #let location = "Bangalore, India"
 #let github = "github.com/udit-001"
-#let linkedin = "linkedin.com/in/stuxf"
+#let linkedin = "linkedin.com/in/uditmittal01"
 #let personal-site = "uditmittal.com"
 
 #show: doc => {
@@ -19,9 +19,9 @@
   // feel free to comment those lines out and they will not show.
   location: location,
   email: email,
-  github: github,
-  // linkedin: linkedin,
-  personal-site: personal-site,
+  // github: github,
+  linkedin: linkedin,
+  // personal-site: personal-site,
   accent-color: "#26428b",
   font: "New Computer Modern",
   paper: "a4",
