@@ -72,7 +72,7 @@ jobs:
           pip install -r scripts/requirements.txt
 
       - name: Setup Typst
-        uses: typst-community/setup-typst@v4.1.0
+        uses: typst-community/setup-typst@v4.2.0
         with:
           cache-dependency-path: src/main.typ
 
