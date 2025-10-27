@@ -38,7 +38,7 @@ jobs:
         run: python3 scripts/generate_resumes.py
 
       - name: Upload PDFs as artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: release-${{ steps.sha.outputs.short_sha }}
           path: dist/*.pdf

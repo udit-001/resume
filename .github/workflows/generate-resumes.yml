@@ -154,7 +154,7 @@ jobs:
 
       - name: Upload all generated PDFs as artifact
         if: github.event.inputs.include_phone == 'false'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: resume-pdfs-${{ steps.date.outputs.tag_date }}
           path: dist/*.pdf
@@ -162,7 +162,7 @@ jobs:
 
       - name: Upload all generated PDFs as artifact (with phone)
         if: github.event.inputs.include_phone == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: resume-pdfs-${{ steps.date.outputs.tag_date }}-with-phone
           path: dist/*.pdf
