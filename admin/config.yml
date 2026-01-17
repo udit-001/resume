@@ -1,0 +1,7 @@
+editor:
+  preview: false
+
+backend:
+  name: github
+  repo: udit-001/resume
+  base_url: https://sveltia-cms-auth.aurax.workers.dev
