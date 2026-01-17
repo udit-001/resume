@@ -6,6 +6,9 @@ backend:
   repo: udit-001/resume
   base_url: https://sveltia-cms-auth.aurax.workers.dev
 
+media_folder: /media
+public_folder: /media
+
 singletons:
   - name: resume
     label: Resume
