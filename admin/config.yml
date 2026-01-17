@@ -5,3 +5,15 @@ backend:
   name: github
   repo: udit-001/resume
   base_url: https://sveltia-cms-auth.aurax.workers.dev
+
+singletons:
+  - name: resume
+    label: Resume
+    file: src/main.typ
+    icon: article
+    fields:
+      - name: body
+        label: Resume
+        widget: code
+        output_code_only: true
+        allow_language_selection: false
